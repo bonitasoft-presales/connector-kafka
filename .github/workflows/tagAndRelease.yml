@@ -25,19 +25,6 @@ jobs:
           git config user.email "actions@github.com"
           git config user.name "GitHub Actions"
 
-      - name: Create json file
-        id: create-json
-        uses: jsdaniell/create-json@1.1.2
-        with:
-          name: "presales-gdrive-service.json"
-          json: ${{ secrets.GD_SERVICE_ACCOUNT }}
-
-      - name: Move files
-        run: |
-          mkdir -p $HOME/gdrive
-          cp presales-gdrive-service.json $HOME/gdrive
-          ls -ltr $HOME/gdrive
-
       - name: Build and test
         run: ./mvnw clean verify
 
