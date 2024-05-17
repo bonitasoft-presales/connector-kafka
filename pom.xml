@@ -3,7 +3,7 @@
 
     <groupId>com.bonitasoft.presales.connector</groupId>
     <artifactId>connector-kafka-consumer</artifactId>
-    <version>1.0</version>
+    <version>1.1-SNAPSHOT</version>
     <name>connector-kafka-consumer</name>
     <packaging>jar</packaging>
 
@@ -172,7 +172,7 @@
         <url>https://github.com/${github.owner}/${github.repo}</url>
         <developerConnection>scm:git:${project.scm.url}.git</developerConnection>
         <connection>scm:git:${project.scm.url}.git</connection>
-        <tag>connector-kafka-consumer-1.0</tag>
+        <tag>HEAD</tag>
     </scm>
     <distributionManagement>
         <snapshotRepository>
