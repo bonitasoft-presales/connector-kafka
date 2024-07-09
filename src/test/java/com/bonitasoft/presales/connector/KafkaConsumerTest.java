@@ -47,6 +47,7 @@ class KafkaConsumerTest extends AbstractKafkaTest {
         //given
         createKafkaMessage(kafka, "key", "value");
 
+        //when
         Map<String, Object> parameters = new HashMap<>();
         String server = String.format("%s:%s", SERVER, kafka.getMappedPort(9093));
         parameters.put(KafkaConsumer.KAFKA_SERVERS, server);
@@ -55,8 +56,12 @@ class KafkaConsumerTest extends AbstractKafkaTest {
         parameters.put(KafkaConsumer.KAFKA_PASSWORD, PASSWORD);
         parameters.put(KafkaConsumer.KAFKA_TOPIC, TOPIC);
         parameters.put(KafkaConsumer.KAFKA_TIMEOUT, TIMEOUT);
+
         connector.setInputParameters(parameters);
+        connector.connect();
         Map<String, Object> outputs = connector.execute();
+
+        //then
         assertThat(outputs).containsKey(KAFKA_RESPONSE);
         ConsumerRecords<String, String> records = (ConsumerRecords<String, String>) outputs.get(KAFKA_RESPONSE);
         assertThat(records.count()).isEqualTo(1);
