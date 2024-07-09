@@ -68,20 +68,18 @@ public class KafkaConsumer extends AbstractConnector implements KafkaConstants {
         String server = getInputParameter(KAFKA_SERVERS).toString();
         String groupId = getInputParameter(KAFKA_GROUP_ID).toString();
         String user = getInputParameter(KAFKA_USER).toString();
-        String password = getInputParameter(KAFKA_PASSWORD).toString();
         String topic = getInputParameter(KAFKA_TOPIC).toString();
         Integer timeout = (Integer) getInputParameter(KAFKA_TIMEOUT);
-
-        this.consumer = new EventConsumer();
 
         LOGGER.info(String.format("KAFKA_SERVER: %s", server));
         LOGGER.info(String.format("KAFKA_GROUP_ID: %s", groupId));
         LOGGER.info(String.format("KAFKA_USER: %s", user));
+        LOGGER.info(String.format("KAFKA_PASSWORD: %s", "***"));
         LOGGER.info(String.format("KAFKA_TOPIC: %s", topic));
         LOGGER.info(String.format("KAFKA_TIMEOUT: %s", timeout));
         LOGGER.info("Getting messages...");
-        connect();
         setOutputParameter(KAFKA_RESPONSE, consumer.get(topic, timeout));
+        LOGGER.info("Got messages...");
     }
 
     /**
@@ -89,9 +87,11 @@ public class KafkaConsumer extends AbstractConnector implements KafkaConstants {
      */
     @Override
     public void connect() throws ConnectorException {
-        LOGGER.info("Creating consumer...");
+        LOGGER.info("Connecting consumer...");
+        consumer = new EventConsumer();
         consumer.createConsumer((String) getInputParameter(KAFKA_SERVERS), (String) getInputParameter(KAFKA_USER),
                 (String) getInputParameter(KAFKA_PASSWORD), getInputParameter(KAFKA_GROUP_ID).toString());
+        LOGGER.info("Connected consumer...");
     }
 
     /**
@@ -99,5 +99,7 @@ public class KafkaConsumer extends AbstractConnector implements KafkaConstants {
      */
     @Override
     public void disconnect() throws ConnectorException {
+        LOGGER.info("Disconnecting consumer...");
+        LOGGER.info("Disconnected consumer...");
     }
 }

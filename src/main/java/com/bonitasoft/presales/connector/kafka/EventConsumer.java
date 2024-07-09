@@ -15,14 +15,8 @@ import org.apache.kafka.common.errors.WakeupException;
 import org.apache.kafka.common.serialization.StringDeserializer;
 
 public class EventConsumer {
-
     private static final Logger LOGGER = LoggerFactory.getLogger(EventConsumer.class);
-
     private KafkaConsumer<String, String> consumer;
-
-    public EventConsumer() {
-
-    }
 
     public void createConsumer(String kafkaServer, String kafkaUser, String kafkaPassword, String kafkaGroupId) {
         // create consumer configs
@@ -38,15 +32,16 @@ public class EventConsumer {
     }
 
     public ConsumerRecords<String, String> get(String topic, int timeout) {
-        ConsumerRecords<String, String> records = null;
+        ConsumerRecords<String, String> records=null;
         try {
-            this.consumer.subscribe(Arrays.asList(topic));
-            records = this.consumer.poll(Duration.ofMillis(timeout));
+            consumer.subscribe(Arrays.asList(topic));
+            records = consumer.poll(Duration.ofMillis(timeout));
             for (ConsumerRecord<String, String> record : records) {
                 LOGGER.info("Key: {}, Value: {}", record.key(), record.value());
                 LOGGER.info("Partition: {}, Offset: {}", record.partition(), record.offset());
             }
-            this.consumer.close();
+            consumer.close();
+            return records;
         } catch (WakeupException e) {
             LOGGER.info("Wake up exception!");
             // we ignore this as this is an expected exception when closing a consumer
@@ -54,7 +49,7 @@ public class EventConsumer {
             LOGGER.error(e.getMessage());
             throw (e);
         }
-        return records;
+        return  records;
     }
 
 }
