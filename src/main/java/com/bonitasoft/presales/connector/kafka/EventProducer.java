@@ -5,7 +5,10 @@ import org.apache.kafka.clients.producer.*;
 import org.apache.kafka.common.serialization.StringSerializer;
 
 import java.util.Properties;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 import java.util.logging.Logger;
 
 public class EventProducer {
@@ -23,7 +26,7 @@ public class EventProducer {
         this.kafkaProducer = new KafkaProducer<>(props);
     }
 
-    public Future<RecordMetadata> send(String topic, String key, String value) {
+    public RecordMetadata send(String topic, String key, String value, int timeoutMillis) throws ExecutionException, InterruptedException, TimeoutException {
         final ProducerRecord<String, String> record = new ProducerRecord<>(
                 topic,
                 key,
@@ -32,7 +35,8 @@ public class EventProducer {
         kafkaProducer.flush();
         kafkaProducer.close();
         LOGGER.info("Message has been sent.");
-        return send;
+        RecordMetadata recordMetadata = send.get(timeoutMillis, TimeUnit.MILLISECONDS);
+        return recordMetadata;
     }
 
 }

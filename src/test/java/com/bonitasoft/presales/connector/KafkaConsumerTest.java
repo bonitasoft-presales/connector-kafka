@@ -1,6 +1,8 @@
 package com.bonitasoft.presales.connector;
 
+import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.clients.consumer.ConsumerRecords;
+import org.apache.kafka.clients.producer.RecordMetadata;
 import org.bonitasoft.engine.connector.ConnectorException;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -13,6 +15,10 @@ import org.testcontainers.utility.DockerImageName;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 
 import static com.bonitasoft.presales.connector.KafkaConstants.KAFKA_RESPONSE;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -37,7 +43,7 @@ class KafkaConsumerTest extends AbstractKafkaTest {
     KafkaConsumer connector;
 
     @Test
-    void should_create_output_for_valid_input() throws ConnectorException {
+    void should_create_output_for_valid_input() throws ConnectorException, ExecutionException, InterruptedException, TimeoutException {
         //given
         createKafkaMessage(kafka, "key", "value");
 
@@ -52,9 +58,13 @@ class KafkaConsumerTest extends AbstractKafkaTest {
         connector.setInputParameters(parameters);
         Map<String, Object> outputs = connector.execute();
         assertThat(outputs).containsKey(KAFKA_RESPONSE);
-        ConsumerRecords<Long, String> response = (ConsumerRecords<Long, String>) outputs.get(KAFKA_RESPONSE);
-        assertThat(response).hasSize(1);
-
+        ConsumerRecords<String, String> records = (ConsumerRecords<String, String>) outputs.get(KAFKA_RESPONSE);
+        assertThat(records.count()).isEqualTo(1);
+        for (ConsumerRecord<String, String> record : records) {
+            assertThat(record.topic()).isEqualTo(TOPIC);
+            assertThat(record.key()).isEqualTo("key");
+            assertThat(record.value()).isEqualTo("value");
+        }
     }
 
 

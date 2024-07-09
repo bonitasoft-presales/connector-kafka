@@ -8,8 +8,8 @@
     <!-- Connector inputs -->
     <input mandatory="true" name="kafkaServers" type="java.lang.String"/>
     <input mandatory="true" name="kafkaGroupId" type="java.lang.String"/>
-    <input mandatory="true" name="kafkaUser" type="java.lang.String"/>
-    <input mandatory="true" name="kafkaPassword" type="java.lang.String"/>
+    <input mandatory="false" name="kafkaUser" type="java.lang.String"/>
+    <input mandatory="false" name="kafkaPassword" type="java.lang.String"/>
     <input mandatory="true" name="kafkaTopic" type="java.lang.String"/>
     <input mandatory="true" name="kafkaTimeout" type="java.lang.Integer"/>
 

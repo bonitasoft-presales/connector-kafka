@@ -1,10 +1,13 @@
 package com.bonitasoft.presales.connector;
 
 import com.bonitasoft.presales.connector.kafka.EventProducer;
+import org.apache.kafka.clients.producer.RecordMetadata;
 import org.bonitasoft.engine.connector.AbstractConnector;
 import org.bonitasoft.engine.connector.ConnectorException;
 import org.bonitasoft.engine.connector.ConnectorValidationException;
 
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeoutException;
 import java.util.logging.Logger;
 
 public class KafkaProducer extends AbstractConnector implements KafkaConstants {
@@ -64,8 +67,15 @@ public class KafkaProducer extends AbstractConnector implements KafkaConstants {
         LOGGER.info(String.format("KAFKA_MESSAGE: %s", getInputParameter(KAFKA_MESSAGE)));
         LOGGER.info("Sending message...");
 
-        setOutputParameter(KAFKA_RESPONSE, producer.send((String) getInputParameter(KAFKA_TOPIC),
-                getInputParameter(KAFKA_ID).toString(), (String) getInputParameter(KAFKA_MESSAGE)));
+        try {
+            RecordMetadata send = producer.send((String) getInputParameter(KAFKA_TOPIC),
+                    getInputParameter(KAFKA_ID).toString(),
+                    (String) getInputParameter(KAFKA_MESSAGE),
+                    Integer.parseInt(getInputParameter(KAFKA_TIMEOUT).toString()));
+            setOutputParameter(KAFKA_RESPONSE, send);
+        } catch (ExecutionException | InterruptedException | TimeoutException e) {
+            throw new ConnectorException(e);
+        }
     }
 
     /**

@@ -45,7 +45,7 @@ public class KafkaConsumer extends AbstractConnector implements KafkaConstants {
 
     protected void checkMandatoryIntegerInput(String inputName) throws ConnectorValidationException {
         try {
-            Integer value = Integer.parseInt(getInputParameter(inputName).toString());
+            Integer.parseInt(getInputParameter(inputName).toString());
         } catch (NumberFormatException e) {
             throw new ConnectorValidationException(this, String.format("'%s' parameter must be a Integer", inputName));
         }

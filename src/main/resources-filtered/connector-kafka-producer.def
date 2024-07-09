@@ -7,11 +7,12 @@
 
     <!-- Connector inputs -->
     <input mandatory="true" name="kafkaServers" type="java.lang.String"/>
-    <input mandatory="true" name="kafkaUser" type="java.lang.String"/>
-    <input mandatory="true" name="kafkaPassword" type="java.lang.String"/>
+    <input mandatory="false" name="kafkaUser" type="java.lang.String"/>
+    <input mandatory="false" name="kafkaPassword" type="java.lang.String"/>
     <input mandatory="true" name="kafkaTopic" type="java.lang.String"/>
     <input mandatory="true" name="kafkaId" type="java.lang.Long"/>
     <input mandatory="true" name="kafkaMessage" type="java.lang.String"/>
+    <input mandatory="true" name="kafkaTimeout" type="java.lang.Integer"/>
 
     <!-- Connector outputs -->
     <output name="kafkaResponse" type="java.lang.Object"/>
@@ -32,5 +33,6 @@
         <widget xsi:type="definition:Text" id="kafkaTopicWidget" inputName="kafkaTopic"/>
         <widget xsi:type="definition:Text" id="kafkaIdWidget" inputName="kafkaId"/>
         <widget xsi:type="definition:Text" id="kafkaMessageWidget" inputName="kafkaMessage"/>
+        <widget xsi:type="definition:Text" id="kafkaTimeoutWidget" inputName="kafkaTimeout"/>
     </page>
 </definition:ConnectorDefinition>

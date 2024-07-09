@@ -18,7 +18,6 @@ import org.testcontainers.utility.DockerImageName;
 import java.io.IOException;
 import java.util.*;
 import java.util.concurrent.ExecutionException;
-import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
@@ -69,10 +68,9 @@ class EventProducerTest extends AbstractKafkaTest {
         //when
         String key = "key";
         String message = "message";
-        Future<RecordMetadata> send = eventProducer.send(TOPIC, key, message);
+        RecordMetadata recordMetadata = eventProducer.send(TOPIC, key, message, 30);
 
         //then
-        RecordMetadata recordMetadata = send.get(30, TimeUnit.SECONDS);
         logger.info("send record topic:{} - message{}", recordMetadata.topic(), recordMetadata.toString());
         assertThat(recordMetadata).as("should publish").isNotNull();
 
