@@ -32,8 +32,8 @@ jobs:
         uses: actions/delete-package-versions@v5
         with:
           min-versions-to-keep: 2
-          package-name: |
-            "${{ steps.pom-info.outputs.group-id }}.${{ steps.pom-info.outputs.artifact-id }}"
+          package-name: "${{ steps.pom-info.outputs.group-id }}.${{ steps.pom-info.outputs.artifact-id }}"
+          package-type: "maven"
 
       - name: Clean old releases - keep last 2
         uses: dev-drprasad/delete-older-releases@v0.2.0
