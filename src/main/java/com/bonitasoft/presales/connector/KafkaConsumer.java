@@ -68,7 +68,6 @@ public class KafkaConsumer extends AbstractConnector implements KafkaConstants {
         String server = getInputParameter(KAFKA_SERVERS).toString();
         String groupId = getInputParameter(KAFKA_GROUP_ID).toString();
         String user = getInputParameter(KAFKA_USER).toString();
-        String password = getInputParameter(KAFKA_PASSWORD).toString();
         String topic = getInputParameter(KAFKA_TOPIC).toString();
         Integer timeout = (Integer) getInputParameter(KAFKA_TIMEOUT);
 
