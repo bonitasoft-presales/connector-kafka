@@ -10,7 +10,7 @@
     <input mandatory="false" name="kafkaUser" type="java.lang.String"/>
     <input mandatory="false" name="kafkaPassword" type="java.lang.String"/>
     <input mandatory="true" name="kafkaTopic" type="java.lang.String"/>
-    <input mandatory="true" name="kafkaId" type="java.lang.Long"/>
+    <input mandatory="true" name="kafkaId" type="java.lang.String"/>
     <input mandatory="true" name="kafkaMessage" type="java.lang.String"/>
     <input mandatory="true" name="kafkaTimeout" type="java.lang.Integer"/>
 
