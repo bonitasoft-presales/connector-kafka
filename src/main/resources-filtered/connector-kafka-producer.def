@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <definition:ConnectorDefinition xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:definition="http://www.bonitasoft.org/ns/connector/definition/6.1">
-    <id>${consumer.connector-definition-id}</id> <!-- Id of the definition -->
-    <version>${consumer.connector-definition-version}</version> <!-- Version of the definition -->
+    <id>${producer.connector-definition-id}</id> <!-- Id of the definition -->
+    <version>${producer.connector-definition-version}</version> <!-- Version of the definition -->
     <icon>kafka.png</icon> <!-- The icon used in the Studio for this definition -->
     <category icon="kafka.png" id="Custom"/> <!-- The category of this definition, used in the Studio (e.g: http, script ...) -->
 
     <!-- Connector inputs -->
     <input mandatory="true" name="kafkaServers" type="java.lang.String"/>
-    <input mandatory="true" name="kafkaGroupId" type="java.lang.String"/>
     <input mandatory="true" name="kafkaUser" type="java.lang.String"/>
     <input mandatory="true" name="kafkaPassword" type="java.lang.String"/>
     <input mandatory="true" name="kafkaTopic" type="java.lang.String"/>
-    <input mandatory="true" name="kafkaTimeout" type="java.lang.Integer"/>
+    <input mandatory="true" name="kafkaId" type="java.lang.Long"/>
+    <input mandatory="true" name="kafkaMessage" type="java.lang.String"/>
 
     <!-- Connector outputs -->
     <output name="kafkaResponse" type="java.lang.Object"/>
@@ -25,12 +25,12 @@
     -->
     <page id="serverConfigPage">
         <widget xsi:type="definition:Text" id="kafkaServersWidget" inputName="kafkaServers"/>
-        <widget xsi:type="definition:Text" id="kafkaGroupIdWidget" inputName="kafkaGroupId"/>
         <widget xsi:type="definition:Text" id="kafkaUserWidget" inputName="kafkaUser"/>
         <widget xsi:type="definition:Text" id="kafkaPasswordWidget" inputName="kafkaPassword"/>
     </page>
     <page id="messageConfigPage">
         <widget xsi:type="definition:Text" id="kafkaTopicWidget" inputName="kafkaTopic"/>
-        <widget xsi:type="definition:Text" id="kafkaTimeoutWidget" inputName="kafkaTimeout"/>
+        <widget xsi:type="definition:Text" id="kafkaIdWidget" inputName="kafkaId"/>
+        <widget xsi:type="definition:Text" id="kafkaMessageWidget" inputName="kafkaMessage"/>
     </page>
 </definition:ConnectorDefinition>
