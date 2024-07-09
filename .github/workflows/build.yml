@@ -37,19 +37,22 @@ jobs:
 
       - name: Get version
         id: get-version
+        if: ${{ github.event.pull_request == null }}
         run: |
           VERSION=$( ./mvnw help:evaluate -Dexpression=project.version -q -DforceStdout )
           FINAL_NAME=$( ./mvnw help:evaluate -Dexpression=project.build.finalName -q -DforceStdout )
-          echo "::set-output name=version::$VERSION"
-          echo "::set-output name=final-name::$FINAL_NAME"
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+          echo "final-name=$FINAL_NAME" >> "$GITHUB_OUTPUT"
 
       - name: Display version
         id: display-version
+        if: ${{ github.event.pull_request == null }}
         run: |
           echo "version: ${{ steps.get-version.outputs.version }}"
           echo "final_name: ${{ steps.get-version.outputs.final-name }}"
 
       - name: Publish to Github Package
+        if: ${{ github.event.pull_request == null }}
         run: ./mvnw --batch-mode deploy
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
